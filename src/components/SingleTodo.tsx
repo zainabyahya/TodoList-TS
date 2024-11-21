@@ -48,7 +48,7 @@ const SingleTodo = ({ todo, todos, setTodos }: Props) => {
   return (
     <form
       onSubmit={(e) => handleEdit(e, todo.id)}
-      className={`flex justify-center items-center gap-5 ${
+      className={`flex justify-between items-center gap-5 ${
         isFocused ? "bg-yellow-300" : "bg-yellow-400"
       } px-4 py-2 rounded-md m-1 transition-colors`}
     >
