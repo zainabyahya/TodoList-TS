@@ -6,29 +6,52 @@ interface Props {
   todo: Todo;
   todos: Todo[];
   setTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
+  completedTodos: Todo[];
+  setCompletedTodos: React.Dispatch<React.SetStateAction<Todo[]>>;
 }
 
-const SingleTodo = ({ todo, todos, setTodos }: Props) => {
+const SingleTodo = ({
+  todo,
+  todos,
+  setTodos,
+  completedTodos,
+  setCompletedTodos,
+}: Props) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo, setEditTodo] = useState<string>(todo.todo);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // const handleDone = (id: number) => {
+  //   setTodos(
+  //     todos.map((todo) =>
+  //       todo.id === id
+  //         ? {
+  //             ...todo,
+  //             isDone: !todo.isDone,
+  //           }
+  //         : todo
+  //     )
+  //   );
+  // };
+
   const handleDone = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id
-          ? {
-              ...todo,
-              isDone: !todo.isDone,
-            }
-          : todo
-      )
-    );
+    if (todo.isDone) {
+      // Move from completed to active
+      setCompletedTodos(completedTodos.filter((task) => task.id !== id));
+      setTodos([...todos, { ...todo, isDone: false }]);
+    } else {
+      // Move from active to completed
+      setTodos(todos.filter((task) => task.id !== id));
+      setCompletedTodos([...completedTodos, { ...todo, isDone: true }]);
+    }
   };
 
   const handleDelete = (id: number) => {
+    console.log("were hereeee");
+
     setTodos(todos.filter((todo) => todo.id !== id));
+    setCompletedTodos(completedTodos.filter((todo) => todo.id !== id));
   };
 
   const handleEdit = (e: React.FormEvent, id: number) => {
@@ -61,7 +84,7 @@ const SingleTodo = ({ todo, todos, setTodos }: Props) => {
           }}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="bg-yellow-400 border-white border-[1px] rounded-md px-1 outline-none focus:bg-yellow-200"
+          className="bg-yellow-400 border-white border-[1px] rounded-md px-1 outline-none focus:bg-yellow-300"
         />
       ) : todo.isDone ? (
         <s className="">{todo.todo}</s>
@@ -71,7 +94,10 @@ const SingleTodo = ({ todo, todos, setTodos }: Props) => {
 
       <div className="flex">
         {edit ? (
-          <span onClick={(e) => handleEdit(e, todo.id)}>
+          <span
+            onClick={(e) => handleEdit(e, todo.id)}
+            className="text-blue-950"
+          >
             <MdDone />
           </span>
         ) : (
@@ -82,6 +108,7 @@ const SingleTodo = ({ todo, todos, setTodos }: Props) => {
                   setEdit(!edit);
                 }
               }}
+              className="text-blue-950"
             >
               <MdEdit />
             </span>
@@ -89,10 +116,13 @@ const SingleTodo = ({ todo, todos, setTodos }: Props) => {
         )}
         {!edit && (
           <>
-            <span onClick={() => handleDelete(todo.id)}>
+            <span
+              onClick={() => handleDelete(todo.id)}
+              className="text-blue-950"
+            >
               <MdDelete />
             </span>
-            <span onClick={() => handleDone(todo.id)}>
+            <span onClick={() => handleDone(todo.id)} className="text-blue-950">
               <MdDone />
             </span>
           </>

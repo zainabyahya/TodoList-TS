@@ -30,7 +30,7 @@ const App: React.FC = () => {
       } transition-colors`}
     >
       <div className="p-10 ">
-        <span className="text-4xl text-white">Taskify</span>
+        <span className="text-4xl text-white">My To Do List</span>
       </div>
       <InputField
         todo={todo}

@@ -21,7 +21,7 @@ const InputField = ({
   }, []);
   return (
     <form
-      className="w-full flex justify-center gap-1"
+      className="w-full flex justify-center gap-1 px-10"
       onSubmit={(e) => {
         handleAdd(e);
       }}
@@ -34,11 +34,11 @@ const InputField = ({
         onFocus={onInputFocus}
         onBlur={onInputBlur}
         placeholder="Enter a task"
-        className=" border-white border-[1px] rounded-md px-1 outline-none"
+        className=" border-white border-[1px] rounded-md px-1 outline-none w-full md:w-1/3"
       />
       <button
         type="submit"
-        className=" bg-white text-blue-950 rounded-md hover:bg-blue-200"
+        className=" bg-white text-blue-950 font-bold rounded-md hover:bg-blue-200 px-5"
       >
         Go
       </button>
